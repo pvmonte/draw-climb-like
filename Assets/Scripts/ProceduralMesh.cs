@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class ProceduralMesh : MonoBehaviour
 {
-    Mesh mesh;
+    public Mesh mesh;
 
-    public Transform[] verticesRef;
+    public Vector3[] verticesRef;
     public float verticesOffset;
     public List<Vector3> vertices = new List<Vector3>();
     public List<int> triangles = new List<int>();
@@ -20,17 +21,18 @@ public class ProceduralMesh : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CreateMesh();
+        //CreateMesh();
     }
 
-    private void CreateMesh()
+    public void CreateMesh(Vector3[] newVertices)
     {
         vertices.Clear();
         triangles.Clear();
+        verticesRef = newVertices;
 
         for (int i = 0; i < verticesRef.Length; i++)
         {
-            MakeMeshData(verticesRef[i].position, vertices.Count);
+            MakeMeshData(verticesRef[i], vertices.Count);
         }
 
         DrawMesh();

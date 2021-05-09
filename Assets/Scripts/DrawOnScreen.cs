@@ -1,16 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 
 public class DrawOnScreen : MonoBehaviour
 {
     Camera cam;
-    [SerializeField] GameObject brush;
+    [SerializeField] GameObject wheelRight;
+    [SerializeField] GameObject wheelLeft;
+    [SerializeField] GameObject brushPrefab;
 
-    [SerializeField] LineRenderer currentLineRenderer;
+    GameObject currentBrush;
+    LineRenderer currentLineRenderer;
+    Vector3 lastPosition;
 
-    [SerializeField] Vector3 lastPosition;
+    [SerializeField] UnityEvent OnDestroyMesh;
 
     // Start is called before the first frame update
     void Start()
@@ -18,46 +23,10 @@ public class DrawOnScreen : MonoBehaviour
         cam = Camera.main;
     }
 
-    private void Update()
+    public void CreateBrush()
     {
-        Draw();
-    }
-
-    private void Draw()
-    {
-        if(Input.GetMouseButtonDown(0))
-        {
-            CreateBrush();
-            print("create");
-        }
-
-        if(Input.GetMouseButton(0))
-        {
-            Vector3 adjustedMousePos = Input.mousePosition;
-            adjustedMousePos.z = 10;
-            Vector3 mousePosition = cam.ScreenToWorldPoint(adjustedMousePos);     
-
-            if(mousePosition != lastPosition)
-            {
-                AddPoint(mousePosition);
-                lastPosition = mousePosition;
-            }
-
-            print("add");
-        }
-
-        if(Input.GetMouseButtonUp(0))
-        {
-            currentLineRenderer = null;
-
-            print("destroy");
-        }
-    }
-
-    void CreateBrush()
-    {
-        GameObject brushInstance = Instantiate(brush);
-        currentLineRenderer = brushInstance.GetComponent<LineRenderer>();
+        currentBrush = Instantiate(brushPrefab);
+        currentLineRenderer = currentBrush.GetComponent<LineRenderer>();
 
         Vector3 adjustedMousePos = Input.mousePosition;
         adjustedMousePos.z = 10;
@@ -67,10 +36,55 @@ public class DrawOnScreen : MonoBehaviour
         currentLineRenderer.SetPosition(1, mousePosition);
     }
 
+    public void UpdateBrush()
+    {
+        Vector3 adjustedMousePos = Input.mousePosition;
+        adjustedMousePos.z = 10;
+        Vector3 mousePosition = cam.ScreenToWorldPoint(adjustedMousePos);
+        //mousePosition.z = 0;
+
+        if (mousePosition != lastPosition)
+        {
+            AddPoint(mousePosition);
+            lastPosition = mousePosition;
+        }
+    }
+
     void AddPoint(Vector2 pointPosition)
     {
         currentLineRenderer.positionCount++;
         int positionIndex = currentLineRenderer.positionCount - 1;
         currentLineRenderer.SetPosition(positionIndex, pointPosition);
+    }
+
+    public void DestroyBrush()
+    {
+        AdjustLineRendererPositions();
+        
+        var wheelRightMesh = wheelRight.GetComponent<MeshFilter>();
+        var wheelLeftMesh = wheelLeft.GetComponent<MeshFilter>();
+        currentLineRenderer.BakeMesh(wheelRightMesh.mesh, Camera.main, true);
+        currentLineRenderer.BakeMesh(wheelLeftMesh.mesh, Camera.main, true);
+        OnDestroyMesh?.Invoke();
+
+        ClearBrush();
+    }
+
+    private void AdjustLineRendererPositions()
+    {
+        Vector3 zero = currentLineRenderer.GetPosition(0);
+
+        for (int i = 0; i < currentLineRenderer.positionCount; i++)
+        {
+            Vector3 currentPos = currentLineRenderer.GetPosition(i);
+            currentLineRenderer.SetPosition(i, currentPos - zero);
+        }
+    }
+
+    private void ClearBrush()
+    {
+        Destroy(currentBrush);
+        currentBrush = null;
+        currentLineRenderer = null;
     }
 }
