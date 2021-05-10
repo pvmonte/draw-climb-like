@@ -15,7 +15,10 @@ public class DrawOnScreen : MonoBehaviour
     LineRenderer currentLineRenderer;
     Vector3 lastPosition;
 
-    [SerializeField] UnityEvent OnDestroyMesh;
+    [SerializeField] OnDestroyMeshEvent OnDestroyMesh;
+
+    [System.Serializable]
+    public class OnDestroyMeshEvent : UnityEvent<Vector3[]> { }
 
     // Start is called before the first frame update
     void Start()
@@ -63,9 +66,15 @@ public class DrawOnScreen : MonoBehaviour
         
         var wheelRightMesh = wheelRight.GetComponent<MeshFilter>();
         var wheelLeftMesh = wheelLeft.GetComponent<MeshFilter>();
+        currentLineRenderer.Simplify(0.05f);
         currentLineRenderer.BakeMesh(wheelRightMesh.mesh, Camera.main, true);
         currentLineRenderer.BakeMesh(wheelLeftMesh.mesh, Camera.main, true);
-        OnDestroyMesh?.Invoke();
+
+        Vector3[] points = new Vector3[currentLineRenderer.positionCount];
+        currentLineRenderer.GetPositions(points);
+        
+
+        OnDestroyMesh?.Invoke(points);
 
         ClearBrush();
     }

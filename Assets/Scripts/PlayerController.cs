@@ -1,35 +1,47 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
-{
-    [SerializeField] Rigidbody wheelR;
-    [SerializeField] Rigidbody wheelL;
+{    
+    [SerializeField] GameObject wheelR;
+    [SerializeField] GameObject wheelL;
+    [SerializeField] PhysicMaterial physicMaterial;    
 
-    // Start is called before the first frame update
-    void Start()
+    List<SphereCollider> colliders = new List<SphereCollider>();
+
+    [SerializeField] UnityEvent OnAddMeshToWheels;
+
+    public void AddMeshToWheels(Vector3[] points)
     {
-        wheelL.AddTorque(0, 0, 2);
-        wheelR.AddTorque(0, 0, 2);
+        ResetColliders();
+        OnAddMeshToWheels?.Invoke();
+
+        AddCollidersToMesh(points, wheelR.gameObject);
+        AddCollidersToMesh(points, wheelL.gameObject);
+        GetComponent<Rigidbody>().isKinematic = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ResetColliders()
     {
-        //wheelL.AddTorque(0, 0, -1);
-        //wheelR.AddTorque(0, 0, -1);
-        //wheelL.angularVelocity = new Vector3(0, 0, -2);
-        //wheelR.angularVelocity = new Vector3(0, 0, -2);
-        wheelL.transform.Rotate(0, 0, -90 * Time.deltaTime);
-        wheelR.transform.Rotate(0, 0, -90 * Time.deltaTime);
+        for (int i = 0; i < colliders.Count; i++)
+        {
+            Destroy(colliders[i]);
+        }
+
+        colliders.Clear();
     }
 
-    public void AddMeshToWheels()
+    void AddCollidersToMesh(Vector3[] points, GameObject leg)
     {
-        var collider = wheelR.gameObject.AddComponent<MeshCollider>();
-        collider.convex = true;
-        collider = wheelL.gameObject.AddComponent<MeshCollider>();
-        collider.convex = true;
+        foreach (var point in points)
+        {
+            var col = leg.AddComponent<SphereCollider>();
+            colliders.Add(col);
+            col.center = point;
+            col.radius = 0.15f;
+            col.material = physicMaterial;
+        }
     }
 }
