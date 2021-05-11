@@ -7,11 +7,19 @@ public class PlayerController : MonoBehaviour
 {    
     [SerializeField] GameObject wheelR;
     [SerializeField] GameObject wheelL;
-    [SerializeField] PhysicMaterial physicMaterial;    
+    [SerializeField] PhysicMaterial physicMaterial;
+    [SerializeField] float verticalSpeed;
+    [SerializeField] float horizontalSpeed;
 
     List<SphereCollider> colliders = new List<SphereCollider>();
 
     [SerializeField] UnityEvent OnAddMeshToWheels;
+
+    private void Update()
+    {
+        var rb = GetComponent<Rigidbody>();
+        rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, rb.velocity.z);
+    }
 
     public void AddMeshToWheels(Vector3[] points)
     {
@@ -41,7 +49,7 @@ public class PlayerController : MonoBehaviour
             colliders.Add(col);
             col.center = point;
             col.radius = 0.15f;
-            col.material = physicMaterial;
+            //col.material = physicMaterial;
         }
     }
 }
