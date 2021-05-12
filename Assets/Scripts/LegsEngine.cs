@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class LegsEngine : MonoBehaviour
 {
@@ -6,11 +7,14 @@ public class LegsEngine : MonoBehaviour
     [SerializeField] Vector3 engineStartRotation;
     [SerializeField] float force;
 
+    [SerializeField] GetLegSizeEvent OnGetLegSize;
+
+    [System.Serializable]
+    public class GetLegSizeEvent : UnityEvent<Vector3> { }
+
     void Start()
     {
         engineStartRotation = engine.transform.localEulerAngles;
-        //wheelL.AddTorque(0, 0, 2);
-        //wheelR.AddTorque(0, 0, 2);
     }
 
     // Update is called once per frame
@@ -22,5 +26,12 @@ public class LegsEngine : MonoBehaviour
     public void ResetEngine()
     {
         engine.transform.localRotation = Quaternion.Euler(engineStartRotation);
+    }
+
+    public void CalculateLegsSize()
+    {
+        var mesh = GetComponentInChildren<MeshFilter>();
+        Vector3 legsBounds = mesh.mesh.bounds.size;
+        OnGetLegSize?.Invoke(legsBounds);
     }
 }

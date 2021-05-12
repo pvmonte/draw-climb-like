@@ -4,22 +4,14 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
-{    
+{
     [SerializeField] GameObject wheelR;
     [SerializeField] GameObject wheelL;
     [SerializeField] PhysicMaterial physicMaterial;
-    [SerializeField] float verticalSpeed;
-    [SerializeField] float horizontalSpeed;
 
     List<SphereCollider> colliders = new List<SphereCollider>();
 
-    [SerializeField] UnityEvent OnAddMeshToWheels;
-
-    private void Update()
-    {
-        var rb = GetComponent<Rigidbody>();
-        rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, rb.velocity.z);
-    }
+    [SerializeField] UnityEvent OnAddMeshToWheels;    
 
     public void AddMeshToWheels(Vector3[] points)
     {

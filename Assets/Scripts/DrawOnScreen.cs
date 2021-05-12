@@ -30,7 +30,7 @@ public class DrawOnScreen : MonoBehaviour
 
     public void CreateBrush()
     {
-        Time.timeScale = 0.1f;
+        Time.timeScale = 0f;
         currentBrush = Instantiate(brushPrefab, transform);
         currentLineRenderer = currentBrush.GetComponent<LineRenderer>();
         Vector3 mousePosition = MousePositionInWorld();
@@ -61,14 +61,6 @@ public class DrawOnScreen : MonoBehaviour
         }
 
         return lastPosition;
-        /*
-        Vector3 adjustedMousePos = Input.mousePosition;
-        adjustedMousePos.z = transform.position.z;
-        Vector3 mousePosition = cam.ScreenToWorldPoint(adjustedMousePos);
-        mousePosition.z = transform.position.z;
-        print($"mousePosition {mousePosition}");
-        return mousePosition;
-        */
     }
 
     void AddPoint(Vector3 pointPosition)
@@ -106,13 +98,13 @@ public class DrawOnScreen : MonoBehaviour
         {
             Vector3 currentPos = currentLineRenderer.GetPosition(i);
             var adjusted = currentPos - zero;
-            adjusted.x *= 5;
-            adjusted.y *= 5;
+            adjusted.x *= 10;
+            adjusted.y *= 10;
             currentLineRenderer.SetPosition(i, adjusted);
         }
 
-        currentLineRenderer.startWidth = 0.2f;
-        currentLineRenderer.endWidth = 0.2f;
+        currentLineRenderer.startWidth = 0.5f;
+        currentLineRenderer.endWidth = 0.5f;
     }
 
     private void ClearBrush()

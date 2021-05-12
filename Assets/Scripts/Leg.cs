@@ -1,29 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Leg : MonoBehaviour
 {
-    [SerializeField] Rigidbody bodyRb;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] UnityEvent OnStartCollision;
+    [SerializeField] UnityEvent OnEndCollision;
 
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.CompareTag("Floor"))
         {
-            print("on");
-            bodyRb.velocity = new Vector3(bodyRb.velocity.x, 0, bodyRb.velocity.z);
+            OnStartCollision?.Invoke();
         }
     }
 
@@ -31,9 +20,7 @@ public class Leg : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Floor"))
         {
-            print("off");
-            bodyRb.velocity = new Vector3(bodyRb.velocity.x, -10f, bodyRb.velocity.z);
-            print(bodyRb.velocity);
+            OnEndCollision?.Invoke();
         }
     }
 }
