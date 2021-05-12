@@ -16,6 +16,14 @@ public class Leg : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+            OnStartCollision?.Invoke();
+        }
+    }
+
     private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Floor"))

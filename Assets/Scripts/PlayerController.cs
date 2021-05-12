@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
             colliders.Add(col);
             col.center = point;
             col.radius = 0.15f;
-            //col.material = physicMaterial;
+            col.material = physicMaterial;
         }
     }
 }
