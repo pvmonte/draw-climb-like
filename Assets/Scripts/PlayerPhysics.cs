@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Constrols physics of players body
+/// </summary>
 public class PlayerPhysics : MonoBehaviour
-{    
-    [SerializeField] float maxGravityTimer;
-    float gravityTimer;
-    bool isGravityTimerRunning;
+{        
     Rigidbody rb;
 
     public void Start()
@@ -12,41 +12,28 @@ public class PlayerPhysics : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    public void Update()
-    {
-        if(gravityTimer <= 0)
-        {
-            //rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, rb.velocity.z);
-            return;
-        }
-
-        //rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-
-        if (isGravityTimerRunning)
-            gravityTimer -= Time.deltaTime;
-    }
-
-    public void ResetGravityTimer()
-    {
-        gravityTimer = maxGravityTimer;
-        isGravityTimerRunning = true;
-    }
-
-    public void StopGravityTimer()
-    {
-        isGravityTimerRunning = false;
-    }
-
+    /// <summary>
+    /// Adds horizontal force to body
+    /// </summary>
     public void AddHorizontalForce()
     {
         rb.AddForce(new Vector3(10, 0, 0));
     }
 
+    /// <summary>
+    /// Reduces the mass of body.
+    /// Used to make easy to go upstairs
+    /// </summary>
     public void ZeroGravity()
     {
         rb.mass = 0.1f;
     }
 
+
+    /// <summary>
+    /// Raises body mass.
+    /// Used to prevent body from been thrown away by legs spin
+    /// </summary>
     public void ResetGravity()
     {
         rb.mass = 10;

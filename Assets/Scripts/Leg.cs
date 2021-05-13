@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+/// <summary>
+/// Holds legs events
+/// </summary>
 public class Leg : MonoBehaviour
 {
     [SerializeField] UnityEvent OnStartCollision;
@@ -10,6 +13,7 @@ public class Leg : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        //On collide with floor
         if(collision.gameObject.CompareTag("Floor"))
         {
             OnStartCollision?.Invoke();
@@ -18,6 +22,7 @@ public class Leg : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
+        //while colliding with floor
         if (collision.gameObject.CompareTag("Floor"))
         {
             OnStartCollision?.Invoke();
@@ -26,6 +31,7 @@ public class Leg : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
+        //On end collision with floor
         if (collision.gameObject.CompareTag("Floor"))
         {
             OnEndCollision?.Invoke();

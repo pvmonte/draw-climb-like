@@ -498,7 +498,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-24152
+  m_Name: pb_Mesh15650
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3144,9 +3144,6 @@ MonoBehaviour:
   engine: {fileID: 637033375}
   engineStartRotation: {x: 0, y: 0, z: 0}
   force: 8
-  OnGetLegSize:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &767441374
 GameObject:
   m_ObjectHideFlags: 0
@@ -3246,7 +3243,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-19638
+  m_Name: pb_Mesh15616
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3418,7 +3415,7 @@ GameObject:
   - component: {fileID: 973834046}
   - component: {fileID: 973834047}
   m_Layer: 0
-  m_Name: WheelLeft
+  m_Name: LegLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3501,17 +3498,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1921957781}
-        m_MethodName: StopGravityTimer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1921957781}
         m_MethodName: ZeroGravity
         m_Mode: 1
         m_Arguments:
@@ -3525,17 +3511,6 @@ MonoBehaviour:
   OnEndCollision:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1921957781}
-        m_MethodName: ResetGravityTimer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1921957781}
         m_MethodName: AddHorizontalForce
         m_Mode: 1
@@ -3641,15 +3616,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawImage: {fileID: 0}
-  wheelRight: {fileID: 2083223509}
-  wheelLeft: {fileID: 973834041}
+  wheelRight: {fileID: 2083223512}
+  wheelLeft: {fileID: 973834044}
   brushPrefab: {fileID: 4740626063200538509, guid: 704d7a663770299418a921460e7e9606,
     type: 3}
   OnDestroyMesh:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1921957779}
-        m_MethodName: AddMeshToWheels
+        m_MethodName: AddMeshToLegs
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3744,7 +3719,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1036844812}
-          m_MethodName: DestroyBrush
+          m_MethodName: EndBrushLifeCicle
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4289,8 +4264,8 @@ GameObject:
   - component: {fileID: 1921957776}
   - component: {fileID: 1921957775}
   - component: {fileID: 1921957780}
-  - component: {fileID: 1921957779}
   - component: {fileID: 1921957781}
+  - component: {fileID: 1921957779}
   m_Layer: 0
   m_Name: PlayerBody
   m_TagString: Untagged
@@ -4382,28 +4357,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1921957774}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bbd19fd69cb8f542af38f0fc8a97aae, type: 3}
+  m_Script: {fileID: 11500000, guid: 3086b6e4519de79449af05b7b9d347a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wheelR: {fileID: 2083223509}
-  wheelL: {fileID: 973834041}
+  legR: {fileID: 2083223509}
+  legL: {fileID: 973834041}
   physicMaterial: {fileID: 13400000, guid: 73873a5e321cfe247a423d0abe8ff07a, type: 2}
-  OnAddMeshToWheels:
+  OnAddMeshToLegs:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 637033376}
         m_MethodName: ResetEngine
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 637033376}
-        m_MethodName: CalculateLegsSize
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4425,7 +4389,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
@@ -4441,7 +4405,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3447d71b358445d4788120aa0ea063c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxGravityTimer: 1
 --- !u!1 &2027370898
 GameObject:
   m_ObjectHideFlags: 0
@@ -4500,7 +4463,7 @@ GameObject:
   - component: {fileID: 2083223514}
   - component: {fileID: 2083223515}
   m_Layer: 0
-  m_Name: WheelRight
+  m_Name: LegRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4522,17 +4485,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1921957781}
-        m_MethodName: StopGravityTimer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1921957781}
         m_MethodName: ZeroGravity
         m_Mode: 1
         m_Arguments:
@@ -4546,17 +4498,6 @@ MonoBehaviour:
   OnEndCollision:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1921957781}
-        m_MethodName: ResetGravityTimer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1921957781}
         m_MethodName: AddHorizontalForce
         m_Mode: 1
