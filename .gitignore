@@ -429,4 +429,7 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 *.tlog
 
+#My
+*.rtf
+
 # End of https://www.toptal.com/developers/gitignore/api/unity,visualstudio
