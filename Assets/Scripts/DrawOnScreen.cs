@@ -9,11 +9,11 @@ using UnityEngine.Events;
 /// </summary>
 public class DrawOnScreen : MonoBehaviour
 {
-    Camera cam;
-    [SerializeField] Image drawImage;
+    Camera cam;    
     [SerializeField] MeshFilter wheelRight;
     [SerializeField] MeshFilter wheelLeft;
     [SerializeField] GameObject brushPrefab;
+    [SerializeField] LayerMask imageLayer;
 
     GameObject currentBrush;
     LineRenderer currentLineRenderer;
@@ -44,10 +44,10 @@ public class DrawOnScreen : MonoBehaviour
         currentBrush = Instantiate(brushPrefab, transform);
         currentLineRenderer = currentBrush.GetComponent<LineRenderer>();
         Vector3 mousePosition = PointerPositionInWorld();
+        currentBrush.transform.position = mousePosition;
 
-        //sets the two first points to the same coordinates to prevent some visual bugs
-        currentLineRenderer.SetPosition(0, mousePosition);
-        currentLineRenderer.SetPosition(1, mousePosition);
+        //Destroy all points to prevent some visual bugs
+        currentLineRenderer.positionCount = 0;
     }
 
     /// <summary>
@@ -70,12 +70,14 @@ public class DrawOnScreen : MonoBehaviour
     /// </summary>
     /// <returns></returns>
     private Vector3 PointerPositionInWorld()
-    {
+    {        
         Ray mouseRay = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+        
 
-        if(Physics.Raycast(mouseRay, out hit, 5))
+        if (Physics.Raycast(mouseRay, out hit, 50, imageLayer))
         {
+            Debug.DrawLine(mouseRay.origin, hit.point, Color.red);
             return hit.point;
         }
 

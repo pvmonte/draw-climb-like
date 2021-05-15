@@ -47,4 +47,9 @@ public class PlayerPhysics : MonoBehaviour
         rb.mass = heavyMass;
         rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
     }
+
+    public void SetIsKinematicToFalse()
+    {
+        rb.isKinematic = false;
+    }
 }
