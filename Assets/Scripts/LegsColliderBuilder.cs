@@ -13,6 +13,7 @@ public class LegsColliderBuilder : MonoBehaviour
     [SerializeField] PhysicMaterial physicMaterial;
 
     List<SphereCollider> colliders = new List<SphereCollider>();
+    float legColliderRadius = 0.15f;
 
     [SerializeField] UnityEvent OnAddMeshToLegs;    
 
@@ -54,7 +55,7 @@ public class LegsColliderBuilder : MonoBehaviour
             var col = leg.AddComponent<SphereCollider>();
             colliders.Add(col);
             col.center = point;
-            col.radius = 0.15f;
+            col.radius = legColliderRadius;
             col.material = physicMaterial;
         }
     }

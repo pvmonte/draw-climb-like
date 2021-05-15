@@ -6,6 +6,11 @@
 public class PlayerPhysics : MonoBehaviour
 {        
     Rigidbody rb;
+    [SerializeField] float horizontalForce = 10;
+    [SerializeField] float maxHorizontalSpeed;
+
+    float lightMass = 0.1f;
+    float heavyMass = 10;
 
     public void Start()
     {
@@ -17,7 +22,10 @@ public class PlayerPhysics : MonoBehaviour
     /// </summary>
     public void AddHorizontalForce()
     {
-        rb.AddForce(new Vector3(10, 0, 0));
+        rb.AddForce(new Vector3(horizontalForce, 0, 0));
+
+        if(rb.velocity.x > maxHorizontalSpeed)
+        rb.velocity = new Vector3(maxHorizontalSpeed, rb.velocity.y, 0);
     }
 
     /// <summary>
@@ -26,7 +34,7 @@ public class PlayerPhysics : MonoBehaviour
     /// </summary>
     public void ZeroGravity()
     {
-        rb.mass = 0.1f;
+        rb.mass = lightMass;
     }
 
 
@@ -36,7 +44,7 @@ public class PlayerPhysics : MonoBehaviour
     /// </summary>
     public void ResetGravity()
     {
-        rb.mass = 10;
+        rb.mass = heavyMass;
         rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
     }
 }

@@ -26,13 +26,7 @@ public class LegsEngine : MonoBehaviour
     /// </summary>
     private void RotationSpeed()
     {
-        if (engine.angularVelocity.z < -force)
-            engine.angularVelocity = new Vector3(0, 0, -force);
-
-        if (engine.angularVelocity.z > -force)
-        {
-            engine.AddTorque(new Vector3(0, 0, -50));
-        }
+        engine.angularVelocity = new Vector3(0, 0, -force);
     }
 
     /// <summary>
